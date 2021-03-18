@@ -26,5 +26,5 @@ export const getEmployeeByIdFromRealmDb = (emloyeeId) => {
 }
 
 export const getAllEmloyeeFromRealmDb = () => {
-    return realm.objects("Employee").filtered('SORT(firstName DESC)');
+    return realm.objects("Employee");
 }

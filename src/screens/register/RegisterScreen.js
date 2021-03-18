@@ -43,7 +43,7 @@ const RegisterScreen = () => {
     }
 
     const onSubmit = () => {
-        if (employee.firstName.trim() == "" || employee.lastName.trim() == "" || employee.employeeId.trim() == "") {
+        if (employee.firstName.trim() == "" || employee.lastName.trim() == "" || employee.employeeId.trim() == "" || employee.department.trim() == "") {
             showErorDialog("error", "Please input required fileds")
 
             return;
@@ -200,7 +200,7 @@ const RegisterScreen = () => {
 
                     {/* Department Input View */}
                     <View style={styles.inputHeader}>
-                        <Text style={styles.inputTitle}>DOB</Text>
+                        <Text style={styles.inputTitle}>Department *</Text>
                     </View>
 
                     <View style={styles.inputContainer}>

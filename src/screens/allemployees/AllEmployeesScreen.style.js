@@ -14,6 +14,14 @@ const AllEmployeesStyle = StyleSheet.create({
     title: {
         fontSize: 32,
     },
+    normalText: {
+        width: "90%",
+        flexDirection: "row",
+        alignItems: "center",
+        fontSize: 12,
+        color: "#18191F",
+        marginBottom: 20,
+    },
 });
 
 export default AllEmployeesStyle;

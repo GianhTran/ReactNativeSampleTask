@@ -3,31 +3,14 @@ import { SafeAreaView, View, FlatList, Text, TouchableOpacity } from 'react-nati
 import { Card, } from 'react-native-elements'
 import styles from "./AllEmployeesScreen.style"
 import { useNavigation } from "@react-navigation/native";
+import { getAllEmloyee } from "../../repositories/EmployeesRepository"
 
-{/* Dummy data, will remove later */ }
-const DATA = [
-    {
-        firstName: 'A',
-        lastName: 'Tran Van',
-        department: 'mobile team'
-    },
-    {
-        firstName: 'A',
-        lastName: 'Tran Van',
-        department: 'mobile team'
-    },
-    {
-        firstName: 'A',
-        lastName: 'Tran Van',
-        department: 'mobile team'
-    }
-];
 
 const Item = ({ firstName, lastName, department }) => (
     <Card>
         <Card.Title>{firstName} {lastName}</Card.Title>
 
-        <Card.FeaturedTitle>Department: {department}</Card.FeaturedTitle>
+        {department.trim() != "" ? (<Text style={styles.normalText}>Department: {department}</Text>) : (<View/>)}
     </Card>
 );
 
@@ -51,7 +34,7 @@ const AllEmployeesScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={DATA}
+                data={getAllEmloyee()}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
