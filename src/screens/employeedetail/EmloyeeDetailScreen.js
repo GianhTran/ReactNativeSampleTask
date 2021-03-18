@@ -6,7 +6,7 @@ import styles from "./EmloyeeDetailScreen.style";
 const EmployeeDetailScreen = () => {
     return (
         <SafeAreaView styles={styles.container}>
-            <Card >
+            <Card style={styles.cardContainer}>
                 <Card.Title>Tran Van A</Card.Title>
 
                 <Text style={styles.normalText}>Email Id: a@gmail.com</Text>

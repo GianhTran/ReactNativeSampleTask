@@ -13,6 +13,9 @@ const EmployeeDetailStyle = StyleSheet.create({
         color: "#18191F",
         marginBottom: 20,
     },
+    cardContainer: {
+        borderRadius: 5
+    }
 });
 
 export default EmployeeDetailStyle;
