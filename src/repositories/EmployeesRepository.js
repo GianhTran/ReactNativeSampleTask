@@ -1,7 +1,21 @@
 import { saveEmployeeToRealmDb, getEmployeeByIdFromRealmDb, getAllEmloyeeFromRealmDb } from "./local/EmployeesLocalDataSource"
 
-export const saveEmployee = () => {
-    saveEmployeeToRealmDb();
+export const saveEmployee = (
+    firstName,
+    lastName,
+    email,
+    mobileNumber,
+    employeeId,
+    dob,
+    department) => {
+    saveEmployeeToRealmDb(
+        firstName,
+        lastName,
+        email,
+        mobileNumber,
+        employeeId,
+        dob,
+        department);
 }
 
 export const getEmployeeById = (emloyeeId) => {

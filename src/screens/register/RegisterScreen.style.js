@@ -64,6 +64,18 @@ const RegisterStyle = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: 10,
+        marginBottom: 2,
+    },
+    skipButton: {
+        width: "90%",
+        backgroundColor: "#18191F",
+        borderColor: "#18191F",
+        borderWidth: 2,
+        borderRadius: 10,
+        height: 60,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 2,
         marginBottom: 30,
     },
     submitText: {

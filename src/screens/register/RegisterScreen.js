@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import {saveEmployee} from "../../repositories/EmployeesRepository"
+import { saveEmployee } from "../../repositories/EmployeesRepository"
 import {
     View,
     Text,
     TouchableOpacity,
     TextInput,
     ScrollView,
+    Alert
 } from "react-native";
 import styles from "./RegisterScreen.style";
 import { useNavigation } from "@react-navigation/native";
@@ -13,8 +14,56 @@ import { useNavigation } from "@react-navigation/native";
 const RegisterScreen = () => {
     const navigation = useNavigation();
 
-    const onSubmit = () => {
+    const showErorDialog = (errorTitle, errorMsg) =>
+        Alert.alert(
+            errorTitle,
+            errorMsg,
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+        );
+
+    const [employee, setEmployee] = React.useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        mobileNumber: "",
+        employeeId: "",
+        dob: "",
+        department: ""
+    });
+
+    const onSkip = () => {
         navigation.navigate("AllEmployeesScreen")
+    }
+
+    const onSubmit = () => {
+        if (employee.firstName.trim() == "" || employee.lastName.trim() == "" || employee.employeeId.trim() == "") {
+            showErorDialog("error", "Please input required fileds")
+
+            return;
+        }
+
+        try {
+            saveEmployee(employee.firstName,
+                employee.lastName,
+                employee.email,
+                employee.mobileNumber,
+                employee.employeeId,
+                employee.dob,
+                employee.department)
+
+            {/* save data successful and nagivate to next screen*/ }
+            navigation.navigate("AllEmployeesScreen")
+        } catch (e) {
+            {/* save data failed */ }
+            showErorDialog("error", e)
+        }
     }
 
     return (
@@ -25,7 +74,7 @@ const RegisterScreen = () => {
 
                     {/* First Name Input View */}
                     <View style={styles.inputHeader}>
-                        <Text style={styles.inputTitle}>First Name</Text>
+                        <Text style={styles.inputTitle}>First Name *</Text>
                     </View>
 
                     <View style={styles.inputContainer}>
@@ -35,12 +84,18 @@ const RegisterScreen = () => {
                             placeholder="First Name"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            onChangeText={(val) => {
+                                setEmployee({
+                                    ...employee,
+                                    firstName: val
+                                });
+                            }}
                         />
                     </View>
 
                     {/* Last Name Input View */}
                     <View style={styles.inputHeader}>
-                        <Text style={styles.inputTitle}>Last Name</Text>
+                        <Text style={styles.inputTitle}>Last Name *</Text>
                     </View>
 
                     <View style={styles.inputContainer}>
@@ -50,6 +105,12 @@ const RegisterScreen = () => {
                             placeholder="Last Name"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            onChangeText={(val) => {
+                                setEmployee({
+                                    ...employee,
+                                    lastName: val
+                                });
+                            }}
                         />
                     </View>
 
@@ -65,6 +126,12 @@ const RegisterScreen = () => {
                             placeholder="example@gmail.com"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            onChangeText={(val) => {
+                                setEmployee({
+                                    ...employee,
+                                    email: val
+                                });
+                            }}
                         />
                     </View>
 
@@ -80,12 +147,18 @@ const RegisterScreen = () => {
                             placeholder="+84775135000"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            onChangeText={(val) => {
+                                setEmployee({
+                                    ...employee,
+                                    mobileNumber: val
+                                });
+                            }}
                         />
                     </View>
 
                     {/* EmployeeId Input View */}
                     <View style={styles.inputHeader}>
-                        <Text style={styles.inputTitle}>Employee Id</Text>
+                        <Text style={styles.inputTitle}>Employee Id *</Text>
                     </View>
 
                     <View style={styles.inputContainer}>
@@ -95,6 +168,12 @@ const RegisterScreen = () => {
                             placeholder="000000000"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            onChangeText={(val) => {
+                                setEmployee({
+                                    ...employee,
+                                    employeeId: val
+                                });
+                            }}
                         />
                     </View>
 
@@ -110,6 +189,12 @@ const RegisterScreen = () => {
                             placeholder="17/03/2021"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            onChangeText={(val) => {
+                                setEmployee({
+                                    ...employee,
+                                    dob: val
+                                });
+                            }}
                         />
                     </View>
 
@@ -125,6 +210,12 @@ const RegisterScreen = () => {
                             placeholder="Mobile Team"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            onChangeText={(val) => {
+                                setEmployee({
+                                    ...employee,
+                                    department: val
+                                });
+                            }}
                         />
                     </View>
 
@@ -136,6 +227,16 @@ const RegisterScreen = () => {
                             onSubmit()
                         }}>
                         <Text style={styles.submitText}>Submit</Text>
+                    </TouchableOpacity>
+
+                    {/* Submit button */}
+                    <TouchableOpacity
+                        testID="skipButton"
+                        style={styles.submitButton}
+                        onPress={() => {
+                            onSkip()
+                        }}>
+                        <Text style={styles.submitText}>Skip</Text>
                     </TouchableOpacity>
                 </View>
             </View>
