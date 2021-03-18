@@ -25,9 +25,10 @@ const RootStack = ({ }) => (
         <Stack.Screen
             name="EmployeeDetailScreen"
             component={EmployeeDetailScreen}
-            options={({ }) => ({
+            options={({ route }) => ({
                 title: null,
                 headerShown: false,
+                employeeId: route.params.employeeId
             })} />
     </Stack.Navigator>
 );

@@ -22,7 +22,7 @@ export const saveEmployeeToRealmDb = (
 }
 
 export const getEmployeeByIdFromRealmDb = (emloyeeId) => {
-  return realm.objects("Employee").filtered('employeeId = "${emloyeeId}"');
+  return realm.objects("Employee").filtered(`employeeId = "${emloyeeId}"`)[0];
 }
 
 export const getAllEmloyeeFromRealmDb = () => {

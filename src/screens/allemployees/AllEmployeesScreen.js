@@ -5,26 +5,25 @@ import styles from "./AllEmployeesScreen.style"
 import { useNavigation } from "@react-navigation/native";
 import { getAllEmloyee } from "../../repositories/EmployeesRepository"
 
-
 const Item = ({ firstName, lastName, department }) => (
     <Card>
         <Card.Title>{firstName} {lastName}</Card.Title>
 
-        {department.trim() != "" ? (<Text style={styles.normalText}>Department: {department}</Text>) : (<View/>)}
+        {department.trim() != "" ? (<Text style={styles.normalText}>Department: {department}</Text>) : (<View />)}
     </Card>
 );
 
 const AllEmployeesScreen = () => {
     const navigation = useNavigation();
 
-    const onItemClicked = () => {
-        navigation.navigate("EmployeeDetailScreen")
+    const onItemClicked = (employeeId) => {
+        navigation.navigate("EmployeeDetailScreen", { employeeId: employeeId })
     }
 
     const renderItem = ({ item }) => (
         <TouchableOpacity
             onPress={() => {
-                onItemClicked()
+                onItemClicked(item.employeeId)
             }}>
             <Item firstName={item.firstName} lastName={item.lastName} department={item.department} />
 
