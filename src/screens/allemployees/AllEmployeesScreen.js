@@ -55,7 +55,7 @@ const AllEmployeesScreen = ({ navigation }) => {
             showErorDialog("error", "error " + e);
         }
 
-        const latestemployees = getAllEmloyee;
+        const latestemployees = getAllEmloyee();
 
         setIsDataEmpty(latestemployees.length == 0);
         setEmloyees(latestemployees);

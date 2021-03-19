@@ -26,8 +26,8 @@ const RegisterScreen = ({ navigation, route }) => {
                     email: localEmployee.email,
                     mobileNumber: localEmployee.mobileNumber,
                     employeeId: localEmployee.employeeId,
-                    dob: moment().format("DD/MM/YYYY"),
-                    department: "React Native team"
+                    dob: localEmployee.dob,
+                    department: localEmployee.department
                 });
 
                 setIsUpdateEmpoyee(true)
@@ -57,7 +57,7 @@ const RegisterScreen = ({ navigation, route }) => {
 
     const [isUpdateEmpoyee, setIsUpdateEmpoyee] = useState(false);
 
-    const [employee, setEmployee] = useState({
+    const initialEmloyee = {
         firstName: "",
         lastName: "",
         email: "",
@@ -65,7 +65,17 @@ const RegisterScreen = ({ navigation, route }) => {
         employeeId: "",
         dob: moment().format("DD/MM/YYYY"),
         department: "React Native team"
-    });
+    }
+
+    const [employee, setEmployee] = useState(initialEmloyee);
+
+    const clearState = () => {
+        setEmployee(initialEmloyee);
+
+        setIsUpdateEmpoyee(false)
+
+        setIsShowDatePicker(false)
+    }
 
     const onSkip = () => {
         navigation.navigate("AllEmployeesScreen")
@@ -93,6 +103,8 @@ const RegisterScreen = ({ navigation, route }) => {
                 updateEmployee(employee);
 
                 navigation.navigate("AllEmployeesScreen");
+
+                clearState();
             } catch (e) {
                 {/* update employee failed */ }
                 showErorDialog("error", e + "")
