@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { saveEmployee } from "../../repositories/EmployeesRepository"
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 import {
     View,
     Text,
@@ -28,7 +30,9 @@ const RegisterScreen = () => {
             ]
         );
 
-    const [employee, setEmployee] = React.useState({
+    const [dobInMillis, setDobdobInMillis] = useState(new Date());
+
+    const [employee, setEmployee] = useState({
         firstName: "",
         lastName: "",
         email: "",
@@ -40,6 +44,15 @@ const RegisterScreen = () => {
 
     const onSkip = () => {
         navigation.navigate("AllEmployeesScreen")
+    }
+
+    const onDOBChanged = (event, selectedDate) => {
+        setDobdobInMillis(selectedDate)
+
+        setEmployee({
+            ...employee,
+            dob: selectedDate.toString("MMM/dd/yyyy")
+        });
     }
 
     const onSubmit = () => {
@@ -183,18 +196,12 @@ const RegisterScreen = () => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <TextInput
-                            testID="dob"
-                            style={styles.inputText}
-                            placeholder="17/03/2021"
-                            placeholderTextColor="grey"
-                            autoCapitalize="none"
-                            onChangeText={(val) => {
-                                setEmployee({
-                                    ...employee,
-                                    dob: val
-                                });
-                            }}
+                        <DateTimePicker
+                            testID="DOBDatePicker"
+                            value={dobInMillis}
+                            mode="date"
+                            display="default"
+                            onChange={onDOBChanged}
                         />
                     </View>
 
@@ -204,34 +211,19 @@ const RegisterScreen = () => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <View style={styles.container}>
-                            <Picker
-                                selectedValue={emloyee.department}
-                                style={{ height: 50, width: 150 }}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    setEmployee({
-                                        ...employee,
-                                        department: itemValue
-                                    })}
-                            >
-                                <Picker.Item label="Android team" value="Android team" />
-                                <Picker.Item label="React Native team" value="React Native team" />
-                                <Picker.Item label="Flutter team" value="Flutter team" />
-                            </Picker>
-                        </View>
-                        {/* <TextInput
-                            testID="department"
-                            style={styles.inputText}
-                            placeholder="Mobile Team"
-                            placeholderTextColor="grey"
-                            autoCapitalize="none"
-                            onChangeText={(val) => {
+                        <Picker
+                            testID="departmentPicker"
+                            selectedValue={emloyee.department}
+                            style={{ height: 50, width: 150 }}
+                            onValueChange={(itemValue, itemIndex) =>
                                 setEmployee({
                                     ...employee,
-                                    department: val
-                                });
-                            }}
-                        /> */}
+                                    department: itemValue
+                                })} >
+                            <Picker.Item label="Android team" value="Android team" />
+                            <Picker.Item label="React Native team" value="React Native team" />
+                            <Picker.Item label="Flutter team" value="Flutter team" />
+                        </Picker>
                     </View>
 
                     {/* Submit button */}
