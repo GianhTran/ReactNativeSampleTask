@@ -82,6 +82,9 @@ const RegisterStyle = StyleSheet.create({
         color: "#fff",
         fontSize: 16,
     },
+    pickerContainer: {
+        width: "100%"
+    }
 });
 
 export default RegisterStyle;

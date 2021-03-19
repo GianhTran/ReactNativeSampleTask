@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     TextInput,
     ScrollView,
-    Alert
+    Alert,
+    Picker
 } from "react-native";
 import styles from "./RegisterScreen.style";
 import { useNavigation } from "@react-navigation/native";
@@ -32,6 +33,8 @@ const RegisterScreen = () => {
 
     const [dobInMillis, setDobdobInMillis] = useState(new Date());
 
+    const [isShowDatePicker, setIsShowDatePicker] = useState(false);
+
     const [employee, setEmployee] = useState({
         firstName: "",
         lastName: "",
@@ -48,6 +51,7 @@ const RegisterScreen = () => {
 
     const onDOBChanged = (event, selectedDate) => {
         setDobdobInMillis(selectedDate)
+        setIsShowDatePicker(false)
 
         setEmployee({
             ...employee,
@@ -196,13 +200,26 @@ const RegisterScreen = () => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <DateTimePicker
-                            testID="DOBDatePicker"
-                            value={dobInMillis}
-                            mode="date"
-                            display="default"
-                            onChange={onDOBChanged}
-                        />
+                        <TouchableOpacity
+                            onPress={() => {
+                                setIsShowDatePicker(true)
+                            }}>
+                            <Text
+                                testID="dob"
+                                style={styles.inputText}
+                                placeholder="17/03/2021"
+                                placeholderTextColor="grey"
+                                autoCapitalize="none"
+                            />
+                        </TouchableOpacity>
+                        {isShowDatePicker && (
+                            <DateTimePicker
+                                testID="DOBDatePicker"
+                                value={dobInMillis}
+                                mode="date"
+                                display="default"
+                                maximumDate={new Date()}
+                                onChange={onDOBChanged} />)}
                     </View>
 
                     {/* Department Input View */}
@@ -213,8 +230,8 @@ const RegisterScreen = () => {
                     <View style={styles.inputContainer}>
                         <Picker
                             testID="departmentPicker"
-                            selectedValue={emloyee.department}
-                            style={{ height: 50, width: 150 }}
+                            selectedValue={employee.department}
+                            style={styles.pickerContainer}
                             onValueChange={(itemValue, itemIndex) =>
                                 setEmployee({
                                     ...employee,
