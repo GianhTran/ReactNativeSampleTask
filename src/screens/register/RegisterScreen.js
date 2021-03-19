@@ -80,7 +80,7 @@ const RegisterScreen = () => {
             navigation.navigate("AllEmployeesScreen")
         } catch (e) {
             {/* save data failed */ }
-            showErorDialog("error", e)
+            showErorDialog("error", e + "")
         }
     }
 
@@ -144,6 +144,7 @@ const RegisterScreen = () => {
                             placeholder="example@gmail.com"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            keyboardType="email-address"
                             onChangeText={(val) => {
                                 setEmployee({
                                     ...employee,
@@ -164,6 +165,7 @@ const RegisterScreen = () => {
                             style={styles.inputText}
                             placeholder="+84775135000"
                             placeholderTextColor="grey"
+                            keyboardType="phone-pad"
                             autoCapitalize="none"
                             onChangeText={(val) => {
                                 setEmployee({
@@ -186,6 +188,7 @@ const RegisterScreen = () => {
                             placeholder="000000000"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            keyboardType="numeric"
                             onChangeText={(val) => {
                                 setEmployee({
                                     ...employee,

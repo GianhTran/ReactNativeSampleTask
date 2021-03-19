@@ -94,7 +94,9 @@ const AllEmployeesScreen = () => {
             <FlatList
                 data={getAllEmloyee()}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={(item, index) => {
+                    return item.id;
+                }}
             />
         </SafeAreaView>
     )
