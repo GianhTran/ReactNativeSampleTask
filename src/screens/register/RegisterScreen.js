@@ -35,7 +35,7 @@ const RegisterScreen = () => {
         mobileNumber: "",
         employeeId: "",
         dob: "",
-        department: ""
+        department: "React Native team"
     });
 
     const onSkip = () => {
@@ -204,7 +204,22 @@ const RegisterScreen = () => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <TextInput
+                        <View style={styles.container}>
+                            <Picker
+                                selectedValue={emloyee.department}
+                                style={{ height: 50, width: 150 }}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setEmployee({
+                                        ...employee,
+                                        department: itemValue
+                                    })}
+                            >
+                                <Picker.Item label="Android team" value="Android team" />
+                                <Picker.Item label="React Native team" value="React Native team" />
+                                <Picker.Item label="Flutter team" value="Flutter team" />
+                            </Picker>
+                        </View>
+                        {/* <TextInput
                             testID="department"
                             style={styles.inputText}
                             placeholder="Mobile Team"
@@ -216,7 +231,7 @@ const RegisterScreen = () => {
                                     department: val
                                 });
                             }}
-                        />
+                        /> */}
                     </View>
 
                     {/* Submit button */}

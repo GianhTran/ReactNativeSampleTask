@@ -22,9 +22,16 @@ export const saveEmployeeToRealmDb = (
 }
 
 export const getEmployeeByIdFromRealmDb = (emloyeeId) => {
-  return realm.objects("Employee").filtered(`employeeId = "${emloyeeId}"`)[0];
+    return realm.objects("Employee").filtered(`employeeId = "${emloyeeId}"`)[0];
 }
 
 export const getAllEmloyeeFromRealmDb = () => {
-    return realm.objects("Employee");
+    return realm.objects("Employee").sorted('firstName', false);
+}
+
+export const deleteEmployeeByIdFromRealmDb = (emloyeeId) => {
+    const emloyee = realm.objects("Employee").filtered(`employeeId = "${emloyeeId}"`);
+    realm.write(() => {
+        realm.delete(emloyee)
+    })
 }

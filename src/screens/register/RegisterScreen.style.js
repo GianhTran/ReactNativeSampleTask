@@ -56,8 +56,8 @@ const RegisterStyle = StyleSheet.create({
     },
     submitButton: {
         width: "90%",
-        backgroundColor: "#18191F",
-        borderColor: "#18191F",
+        backgroundColor: "#13D592",
+        borderColor: "#13D592",
         borderWidth: 2,
         borderRadius: 10,
         height: 60,
@@ -68,7 +68,7 @@ const RegisterStyle = StyleSheet.create({
     },
     skipButton: {
         width: "90%",
-        backgroundColor: "#18191F",
+        backgroundColor: "#13D592",
         borderColor: "#18191F",
         borderWidth: 2,
         borderRadius: 10,

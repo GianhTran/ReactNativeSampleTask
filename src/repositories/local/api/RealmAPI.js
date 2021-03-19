@@ -3,6 +3,7 @@ var Realm = require("realm");
 class Employee extends Realm.Object { }
 Employee.schema = {
     name: "Employee",
+    primaryKey: 'employeeId',
     properties: {
         firstName: "string",
         lastName: "string",
