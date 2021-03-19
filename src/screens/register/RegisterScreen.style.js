@@ -51,8 +51,11 @@ const RegisterStyle = StyleSheet.create({
     inputText: {
         width: "90%",
         height: 50,
-        fontFamily: "popins-regular",
         color: "#18191F",
+    },
+    normalText:{
+        width: "90%",
+        color: "#18191F"
     },
     submitButton: {
         width: "90%",

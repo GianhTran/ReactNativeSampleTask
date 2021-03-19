@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { saveEmployee } from "../../repositories/EmployeesRepository"
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import dobTimeFormat from "../../utils/constants/Common"
 import {
     View,
     Text,
@@ -41,7 +41,7 @@ const RegisterScreen = () => {
         email: "",
         mobileNumber: "",
         employeeId: "",
-        dob: "",
+        dob: new Date().toString(dobTimeFormat),
         department: "React Native team"
     });
 
@@ -55,7 +55,7 @@ const RegisterScreen = () => {
 
         setEmployee({
             ...employee,
-            dob: selectedDate.toString("MMM/dd/yyyy")
+            dob: selectedDate.toString(dobTimeFormat)
         });
     }
 
@@ -201,16 +201,14 @@ const RegisterScreen = () => {
 
                     <View style={styles.inputContainer}>
                         <TouchableOpacity
+                            style={{ flex: 1 }}
                             onPress={() => {
                                 setIsShowDatePicker(true)
                             }}>
                             <Text
                                 testID="dob"
-                                style={styles.inputText}
-                                placeholder="17/03/2021"
-                                placeholderTextColor="grey"
-                                autoCapitalize="none"
-                            />
+                                style={styles.normalText}
+                            >{employee.dob}</Text>
                         </TouchableOpacity>
                         {isShowDatePicker && (
                             <DateTimePicker
