@@ -1,4 +1,4 @@
-import { saveEmployeeToRealmDb, getEmployeeByIdFromRealmDb, getAllEmloyeeFromRealmDb, deleteEmployeeByIdFromRealmDb } from "./local/EmployeesLocalDataSource"
+import { saveEmployeeToRealmDb, getEmployeeByIdFromRealmDb, getAllEmloyeeFromRealmDb, deleteEmployeeByIdFromRealmDb, updateEmployeeInRealmDb } from "./local/EmployeesLocalDataSource"
 
 export const saveEmployee = (
     firstName,
@@ -28,4 +28,8 @@ export const getAllEmloyee = () => {
 
 export const deleteEmployeeById = (emloyeeId) => {
     return deleteEmployeeByIdFromRealmDb(emloyeeId);
+}
+
+export const updateEmployee = (employee) => {
+    return updateEmployeeInRealmDb(employee);
 }

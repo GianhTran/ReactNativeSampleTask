@@ -35,3 +35,17 @@ export const deleteEmployeeByIdFromRealmDb = (emloyeeId) => {
         realm.delete(emloyee)
     })
 }
+
+export const updateEmployeeInRealmDb = (employee) => {
+    realm.write(() => {
+        realm.create("Employee", {
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            email: employee.email,
+            mobileNumber: employee.mobileNumber,
+            employeeId: employee.employeeId,
+            dob: employee.dob,
+            department: employee.department
+        }, 'modified');
+    })
+}

@@ -7,20 +7,20 @@ import RegisterScreen from "../screens/register/RegisterScreen"
 const Stack = createStackNavigator();
 
 const RootStack = ({ }) => (
-    <Stack.Navigator>
+    <Stack.Navigator mode="modal">
         <Stack.Screen
             name="RegisterScreen"
             component={RegisterScreen}
-            options={({ }) => ({
+            options={({  }) => ({
                 title: null,
-                headerShown: false,
+                headerShown: false
             })} />
         <Stack.Screen
             name="AllEmployeesScreen"
             component={AllEmployeesScreen}
             options={({ }) => ({
                 title: null,
-                headerShown: false,
+                headerShown: false
             })} />
         <Stack.Screen
             name="EmployeeDetailScreen"

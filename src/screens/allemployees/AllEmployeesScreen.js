@@ -2,7 +2,6 @@ import React from "react";
 import { SafeAreaView, View, FlatList, Text, TouchableOpacity, Alert } from 'react-native';
 import { Card } from 'react-native-elements'
 import styles from "./AllEmployeesScreen.style"
-import { useNavigation } from "@react-navigation/native";
 import { getAllEmloyee, deleteEmployeeById } from "../../repositories/EmployeesRepository"
 
 const showErorDialog = (errorTitle, errorMsg) =>
@@ -19,8 +18,7 @@ const showErorDialog = (errorTitle, errorMsg) =>
         ]
     );
 
-const AllEmployeesScreen = () => {
-    const navigation = useNavigation();
+const AllEmployeesScreen = ({ navigation }) => {
 
     const showDeleteConfirmPopup = (employeeId) =>
         Alert.alert(
@@ -43,7 +41,11 @@ const AllEmployeesScreen = () => {
 
 
     const onItemClicked = (employeeId) => {
-        navigation.navigate("EmployeeDetailScreen", { employeeId: employeeId })
+        navigation.navigate("EmployeeDetailScreen", { employeeId: employeeId });
+    }
+
+    const onUpdateEmployee = (employeeId) => {
+        navigation.navigate("RegisterScreen", { employeeId: employeeId });
     }
 
     const onDeteleEmployee = (employeeId) => {
@@ -55,7 +57,7 @@ const AllEmployeesScreen = () => {
 
         const latestemployees = getAllEmloyee;
 
-        setIsDataEmpty(latestemployees.length == 0)
+        setIsDataEmpty(latestemployees.length == 0);
         setEmloyees(latestemployees);
     }
 
@@ -77,7 +79,10 @@ const AllEmployeesScreen = () => {
 
                 <TouchableOpacity
                     testID="updateButton"
-                    style={styles.button}>
+                    style={styles.button}
+                    onPress={() => {
+                        onUpdateEmployee(id)
+                    }}>
                     <Text style={styles.buttonText}>Update</Text>
                 </TouchableOpacity>
             </View>
@@ -99,7 +104,7 @@ const AllEmployeesScreen = () => {
             {!isDataEmpty ? <FlatList
                 data={emloyees}
                 renderItem={renderItem}
-                keyExtractor={(item, index) => {
+                keyExtractor={(item) => {
                     return item.id;
                 }}
             /> : (<View style={styles.emptyDataContainer}>

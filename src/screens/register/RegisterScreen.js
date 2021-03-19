@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { saveEmployee } from "../../repositories/EmployeesRepository";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { DOD_TIME_FORMAT } from "../../utils/constants/Common";
 import moment from 'moment';
+import { getEmployeeById, updateEmployee } from "../../repositories/EmployeesRepository"
 import {
     View,
     Text,
@@ -13,10 +13,29 @@ import {
     Picker
 } from "react-native";
 import styles from "./RegisterScreen.style";
-import { useNavigation } from "@react-navigation/native";
 
-const RegisterScreen = () => {
-    const navigation = useNavigation();
+const RegisterScreen = ({ navigation, route }) => {
+    React.useEffect(() => {
+        if (route.params?.employeeId) {
+            try {
+                const localEmployee = getEmployeeById(route.params?.employeeId);
+
+                setEmployee({
+                    firstName: localEmployee.firstName,
+                    lastName: localEmployee.lastName,
+                    email: localEmployee.email,
+                    mobileNumber: localEmployee.mobileNumber,
+                    employeeId: localEmployee.employeeId,
+                    dob: moment().format("DD/MM/YYYY"),
+                    department: "React Native team"
+                });
+
+                setIsUpdateEmpoyee(true)
+            } catch (e) {
+                showErorDialog("error", e + "");
+            }
+        }
+    }, [route.params?.employeeId]);
 
     const showErorDialog = (errorTitle, errorMsg) =>
         Alert.alert(
@@ -35,6 +54,8 @@ const RegisterScreen = () => {
     const [DOBObject, setDOBObject] = useState(new Date());
 
     const [isShowDatePicker, setIsShowDatePicker] = useState(false);
+
+    const [isUpdateEmpoyee, setIsUpdateEmpoyee] = useState(false);
 
     const [employee, setEmployee] = useState({
         firstName: "",
@@ -60,8 +81,31 @@ const RegisterScreen = () => {
         });
     }
 
+    const onUpdate = () => {
+        if (route.params?.employeeId) {
+            if (isValidateFailed()) {
+                showErorDialog("error", "Please input required fileds")
+    
+                return;
+            }
+
+            try {
+                updateEmployee(employee);
+
+                navigation.navigate("AllEmployeesScreen");
+            } catch (e) {
+                {/* update employee failed */ }
+                showErorDialog("error", e + "")
+            }
+        }
+    }
+
+    const isValidateFailed = () => {
+        return (employee.firstName.trim() == "" || employee.lastName.trim() == "" || employee.employeeId.trim() == "" || employee.department.trim() == "");
+    }
+
     const onSubmit = () => {
-        if (employee.firstName.trim() == "" || employee.lastName.trim() == "" || employee.employeeId.trim() == "" || employee.department.trim() == "") {
+        if (isValidateFailed()) {
             showErorDialog("error", "Please input required fileds")
 
             return;
@@ -88,7 +132,7 @@ const RegisterScreen = () => {
         <ScrollView>
             <View style={styles.container}>
                 <View style={styles.registerContainer}>
-                    <Text style={styles.title}>Please register first!</Text>
+                    {!isUpdateEmpoyee ? (<Text style={styles.title}>Please register first!</Text>) : (<Text style={styles.title}>Edit Employee: {employee.firstName}</Text>)}
 
                     {/* First Name Input View */}
                     <View style={styles.inputHeader}>
@@ -101,6 +145,7 @@ const RegisterScreen = () => {
                             style={styles.inputText}
                             placeholder="First Name"
                             placeholderTextColor="grey"
+                            value={employee.firstName}
                             autoCapitalize="none"
                             onChangeText={(val) => {
                                 setEmployee({
@@ -123,6 +168,7 @@ const RegisterScreen = () => {
                             placeholder="Last Name"
                             placeholderTextColor="grey"
                             autoCapitalize="none"
+                            value={employee.lastName}
                             onChangeText={(val) => {
                                 setEmployee({
                                     ...employee,
@@ -145,6 +191,7 @@ const RegisterScreen = () => {
                             placeholderTextColor="grey"
                             autoCapitalize="none"
                             keyboardType="email-address"
+                            value={employee.email}
                             onChangeText={(val) => {
                                 setEmployee({
                                     ...employee,
@@ -167,6 +214,7 @@ const RegisterScreen = () => {
                             placeholderTextColor="grey"
                             keyboardType="phone-pad"
                             autoCapitalize="none"
+                            value={employee.mobileNumber}
                             onChangeText={(val) => {
                                 setEmployee({
                                     ...employee,
@@ -189,6 +237,7 @@ const RegisterScreen = () => {
                             placeholderTextColor="grey"
                             autoCapitalize="none"
                             keyboardType="numeric"
+                            value={employee.employeeId}
                             onChangeText={(val) => {
                                 setEmployee({
                                     ...employee,
@@ -245,15 +294,24 @@ const RegisterScreen = () => {
                         </Picker>
                     </View>
 
-                    {/* Submit button */}
-                    <TouchableOpacity
-                        testID="loginButton"
-                        style={styles.submitButton}
-                        onPress={() => {
-                            onSubmit()
-                        }}>
-                        <Text style={styles.submitText}>Submit</Text>
-                    </TouchableOpacity>
+                    {/* if isUpdateEmpoyee else Update then Submit*/}
+                    {isUpdateEmpoyee ?
+                        (<TouchableOpacity
+                            testID="updateButton"
+                            style={styles.submitButton}
+                            onPress={() => {
+                                onUpdate()
+                            }}>
+                            <Text style={styles.submitText}>Update</Text>
+                        </TouchableOpacity>) :
+                        (<TouchableOpacity
+                            testID="submitButton"
+                            style={styles.submitButton}
+                            onPress={() => {
+                                onSubmit()
+                            }}>
+                            <Text style={styles.submitText}>Submit</Text>
+                        </TouchableOpacity>)}
 
                     {/* Submit button */}
                     <TouchableOpacity
