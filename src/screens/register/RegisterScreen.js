@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { saveEmployee } from "../../repositories/EmployeesRepository"
+import { saveEmployee } from "../../repositories/EmployeesRepository";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import dobTimeFormat from "../../utils/constants/Common"
+import { DOD_TIME_FORMAT } from "../../utils/constants/Common";
+import moment from 'moment';
 import {
     View,
     Text,
@@ -31,7 +32,7 @@ const RegisterScreen = () => {
             ]
         );
 
-    const [dobInMillis, setDobdobInMillis] = useState(new Date());
+    const [DOBObject, setDOBObject] = useState(new Date());
 
     const [isShowDatePicker, setIsShowDatePicker] = useState(false);
 
@@ -41,7 +42,7 @@ const RegisterScreen = () => {
         email: "",
         mobileNumber: "",
         employeeId: "",
-        dob: new Date().toString(dobTimeFormat),
+        dob: moment().format("DD/MM/YYYY"),
         department: "React Native team"
     });
 
@@ -50,12 +51,12 @@ const RegisterScreen = () => {
     }
 
     const onDOBChanged = (event, selectedDate) => {
-        setDobdobInMillis(selectedDate)
-        setIsShowDatePicker(false)
+        setDOBObject(selectedDate);
+        setIsShowDatePicker(false);
 
         setEmployee({
             ...employee,
-            dob: selectedDate.toString(dobTimeFormat)
+            dob: moment(selectedDate).format("DD/MM/YYYY")
         });
     }
 
@@ -213,7 +214,7 @@ const RegisterScreen = () => {
                         {isShowDatePicker && (
                             <DateTimePicker
                                 testID="DOBDatePicker"
-                                value={dobInMillis}
+                                value={DOBObject}
                                 mode="date"
                                 display="default"
                                 maximumDate={new Date()}
