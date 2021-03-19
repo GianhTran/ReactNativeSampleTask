@@ -36,9 +36,11 @@ const AllEmployeesScreen = () => {
             ]
         );
 
-    const [deletedEmployeeId, setDeletedEmployeeId] = React.useState({
-        deletedEmployeeId: ""
-    });
+    const [emloyees, setEmloyees] = React.useState(getAllEmloyee);
+
+
+    const [isDataEmpty, setIsDataEmpty] = React.useState(emloyees.length == 0);
+
 
     const onItemClicked = (employeeId) => {
         navigation.navigate("EmployeeDetailScreen", { employeeId: employeeId })
@@ -51,7 +53,10 @@ const AllEmployeesScreen = () => {
             showErorDialog("error", "error " + e);
         }
 
-        setDeletedEmployeeId(employeeId);
+        const latestemployees = getAllEmloyee;
+
+        setIsDataEmpty(latestemployees.length == 0)
+        setEmloyees(latestemployees);
     }
 
     const Item = ({ firstName, lastName, department, id }) => (
@@ -71,7 +76,7 @@ const AllEmployeesScreen = () => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    testID="upadteButton"
+                    testID="updateButton"
                     style={styles.button}>
                     <Text style={styles.buttonText}>Update</Text>
                 </TouchableOpacity>
@@ -91,13 +96,15 @@ const AllEmployeesScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList
-                data={getAllEmloyee()}
+            {!isDataEmpty ? <FlatList
+                data={emloyees}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => {
                     return item.id;
                 }}
-            />
+            /> : (<View style={styles.emptyDataContainer}>
+                <Text style={{ ...styles.normalText, textAlign: 'center', }}>Data is empty</Text>
+            </View>)}
         </SafeAreaView>
     )
 };

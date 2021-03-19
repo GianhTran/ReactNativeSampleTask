@@ -5,6 +5,19 @@ const AllEmployeesStyle = StyleSheet.create({
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
     },
+    emptyDataContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    title: {
+        width: "90%",
+        flexDirection: "row",
+        alignItems: "center",
+        fontSize: 24,
+        color: "#18191F",
+        marginBottom: 20,
+    },
     item: {
         backgroundColor: '#f9c2ff',
         padding: 20,
